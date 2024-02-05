@@ -96,10 +96,13 @@ import { navigate } from "../Navigation/Navigation_all_helper";
 
 // =============== authenticate user ==========//
 // send to reducer
-export const authUser = (token) => {
+export const authUser = (token, email) => {
     return {
         type: actionTypes.AUTHENTICATE_USER,
-        payload: token,
+        payload: {
+            token: token,
+            email: email,
+        },
     };
 };
 
@@ -136,7 +139,7 @@ export const tryAuth = (email, password, mode) => (dispatch) => {
                 }
                 // dispacth to reducer
 
-                dispatch(authUser(data.idToken));
+                dispatch(authUser(data.idToken, email));
 
                 navigate("Home");
             }

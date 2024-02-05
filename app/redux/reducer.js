@@ -5,6 +5,7 @@ import * as actionTypes from "./actionTypes";
 const initState = {
     isAuth: false,
     token: null,
+    user_email: null,
 };
 
 export const rootReducer = (state = initState, action) => {
@@ -13,7 +14,8 @@ export const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 isAuth: true,
-                token: action.payload,
+                token: action.payload.token,
+                user_email: action.payload.email,
             };
 
         default:
