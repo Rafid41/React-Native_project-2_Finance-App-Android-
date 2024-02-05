@@ -1,6 +1,7 @@
 // app\redux\actionCreators.js
 import * as actionTypes from "./actionTypes";
 import { navigate } from "../Navigation/Navigation_all_helper";
+import { Alert } from "react-native";
 
 // //================ firebase database e upload ====================//
 // // axios o use kora jay
@@ -93,6 +94,39 @@ import { navigate } from "../Navigation/Navigation_all_helper";
 //         payload: key,
 //     };
 // };
+
+//==================== Add account ===================//
+
+export const addAccount = (email, acc_name) => {
+    // console.log(place);
+    // auto state ashe reducer theke, variable(ekhane getState) e store korte hy
+    return (dispatch, getState) => {
+        let token = getState().token;
+        // places table e store
+        // link/uri , additional data
+        fetch(
+            `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Account_Names.json?auth=${token}`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    user_email: email,
+                    acc_name: acc_name,
+                }),
+            }
+        )
+            .catch((error) => Alert.alert(error))
+            // error na hole
+            .then((response) => {
+                Alert.alert("Added");
+                //response.json();
+            })
+            .then((data) => {
+                // load places  after add
+                //dispatch(loadPlaces());
+                console.log("check data leak addPlaces\n");
+            });
+    };
+};
 
 // =============== authenticate user ==========//
 // send to reducer
