@@ -12,6 +12,7 @@ import Auth from "../screens/Auth";
 import { useNavigation } from "@react-navigation/native";
 import Categories from "../screens/Categories/Categories";
 import Entries from "../screens/Entries/Entries";
+import EntryDetail from "../screens/Entries/EntryDetail";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -42,6 +43,15 @@ const AppNavigator = () => {
             <Drawer.Screen
                 name="Entries"
                 component={Entries}
+                options={{
+                    drawerLabel: () => null,
+                    // hides it from sliding window
+                    drawerItemStyle: { display: "none" },
+                }}
+            />
+            <Drawer.Screen
+                name="EntryDetail"
+                component={EntryDetail}
                 options={{
                     drawerLabel: () => null,
                     // hides it from sliding window

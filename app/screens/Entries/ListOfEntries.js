@@ -35,16 +35,13 @@ const ListOfEntries = (props) => {
                                         : "white",
                                 },
                             ]}
-                            // onPress={() => {
-                            //     // send params
-                            //     //  key of that category name
-                            //     // navigate("Entries", {
-                            //     //     category_key: item.key,
-                            //     //     category_name: item.category_name,
-                            //     //     accountKey_of_category:
-                            //     //         props.accountKey_of_category,
-                            //     // });
-                            // }}
+                            onPress={() => {
+                                // send params
+                                //  key of that category name
+                                navigate("EntryDetail", {
+                                    the_Entry: item.the_Entry,
+                                });
+                            }}
                         >
                             <Text style={styles.itemText}>
                                 {item.the_Entry.name}
