@@ -9,6 +9,10 @@ const initState = {
     account_List: [],
     category_List: [],
     entry_List: [],
+    account_summery: {
+        income: 0,
+        expense: 0,
+    },
 };
 
 export const rootReducer = (state = initState, action) => {
@@ -35,6 +39,11 @@ export const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 entry_List: action.payload,
+            };
+        case actionTypes.LOAD_ACCOUNT_SUMMERY:
+            return {
+                ...state,
+                account_summery: action.payload,
             };
 
         default:

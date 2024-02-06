@@ -10,18 +10,53 @@ import {
 } from "react-native";
 import { navigate } from "../../Navigation/Navigation_all_helper";
 import { connect } from "react-redux";
-import { loadEntries } from "../../redux/actionCreators";
+import { loadEntries, accountSummery } from "../../redux/actionCreators";
 
 // ======================= mapStateToProps =======================//
 const mapDispatchToProps = (dispatch) => {
     return {
         loadEntries: (acc_name_key) => dispatch(loadEntries(acc_name_key)),
+        accountSummery: (account_key) => dispatch(accountSummery(account_key)),
     };
 };
 
 // ================================= Main fn ================================//
 const ListOfCategories = (props) => {
-    console.log(props.accountKey_of_category);
+    // ===================== summery button =========================//
+    let summery_button = (
+        <View style={styles.summeryContainer}>
+            <Pressable
+                style={({ pressed }) => [
+                    styles.SummeryItemContainer,
+                    {
+                        opacity: pressed ? 0.5 : 1,
+                        backgroundColor: pressed ? "#05611c" : "#7d0ac9",
+                    },
+                ]}
+                onPress={() => {
+                    props.accountSummery(props.accountKey_of_category);
+                    navigate("Summery");
+                }}
+            >
+                <Text
+                    style={{
+                        color: "white",
+                        fontWeight: "bold",
+                        fontStyle: "italic",
+                        fontSize: 22,
+                    }}
+                >
+                    Show Summery
+                </Text>
+            </Pressable>
+        </View>
+    );
+
+    if (props.category_List.length == 0) {
+        summery_button = null;
+    }
+
+    // ================= return ========================//
     return (
         <View>
             <FlatList
@@ -63,6 +98,7 @@ const ListOfCategories = (props) => {
                     </TouchableOpacity>
                 )}
             />
+            {summery_button}
         </View>
     );
 };
@@ -80,6 +116,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#333",
         fontWeight: "bold",
+    },
+    summeryContainer: {
+        padding: 25,
+        alignItems: "center",
+    },
+    SummeryItemContainer: {
+        width: "80%",
+        padding: 12,
+        borderWidth: 2,
+        borderRadius: 15,
+        alignItems: "center",
     },
 });
 

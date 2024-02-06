@@ -368,3 +368,45 @@ export const loadEntries_helper = (Entries) => {
         payload: Entries,
     };
 };
+
+// ========================= fetch account summery ======================//
+export const accountSummery = (account_key) => (dispatch, getState) => {
+    let token = getState().token;
+    fetch(
+        `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Entries.json?orderBy="accountKey_of_category"&equalTo="${account_key}"&auth=${token}`
+    )
+        .catch((err) => {
+            alert("something went wrong, sorry");
+            console.log(err);
+        })
+        .then((res) => res.json())
+        .then((data_from_firebase) => {
+            console.log("check data leak==> account summery\n");
+
+            let income = 0;
+            let expense = 0;
+
+            for (let key in data_from_firebase) {
+                let x = Number(data_from_firebase[key].the_Entry.money_amount);
+
+                if (data_from_firebase[key].the_Entry.type == "expense") {
+                    expense += x;
+                } else if (data_from_firebase[key].the_Entry.type == "income") {
+                    income += x;
+                }
+            }
+            let summery = {
+                income: income,
+                expense: expense,
+            };
+
+            dispatch(accountSummery_helper(summery));
+        });
+};
+
+export const accountSummery_helper = (summery) => {
+    return {
+        type: actionTypes.LOAD_ACCOUNT_SUMMERY,
+        payload: summery,
+    };
+};
