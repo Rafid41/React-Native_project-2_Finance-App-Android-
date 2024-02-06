@@ -4,8 +4,10 @@ import {
     View,
     Text,
     StyleSheet,
+    Pressable,
     TouchableOpacity,
 } from "react-native";
+import { navigate } from "../Navigation/Navigation_all_helper";
 
 const ListOfAccounts = (props) => {
     return (
@@ -16,17 +18,27 @@ const ListOfAccounts = (props) => {
                 keyExtractor={(item) => item.key}
                 renderItem={({ item, index }) => (
                     <TouchableOpacity>
-                        <View
-                            style={{
-                                ...styles.itemContainer,
-                                borderBottomColor:
-                                    index < props.account_List.length - 1
-                                        ? "transparent"
-                                        : "black",
-                            }}
+                        <Pressable
+                            style={({ pressed }) => [
+                                styles.itemContainer,
+                                {
+                                    borderBottomColor:
+                                        index < props.account_List.length - 1
+                                            ? "transparent"
+                                            : "black",
+                                    opacity: pressed ? 0.5 : 1,
+                                    backgroundColor: pressed
+                                        ? "#0dd9d2"
+                                        : "white",
+                                },
+                            ]}
+                            onPress={() =>
+                                // send params
+                                navigate("Categories", { account: item })
+                            }
                         >
                             <Text style={styles.itemText}>{item.acc_name}</Text>
-                        </View>
+                        </Pressable>
                     </TouchableOpacity>
                 )}
             />

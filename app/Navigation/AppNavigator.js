@@ -10,6 +10,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createStackNavigator } from "@react-navigation/stack";
 import Auth from "../screens/Auth";
 import { useNavigation } from "@react-navigation/native";
+import Categories from "../screens/Categories/Categories";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -28,6 +29,15 @@ const AppNavigator = () => {
                 options={{ headerShown: false, swipeEnabled: false }}
             />
             <Drawer.Screen name="Home" component={HomeScreen} />
+            <Drawer.Screen
+                name="Categories"
+                component={Categories}
+                options={{
+                    drawerLabel: () => null,
+                    // hides it from sliding window
+                    drawerItemStyle: { display: "none" },
+                }}
+            />
         </Drawer.Navigator>
     );
 };
