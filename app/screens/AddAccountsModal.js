@@ -8,6 +8,7 @@ import {
     View,
     TextInput,
 } from "react-native";
+import styles from "./styles/styles";
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { addAccount } from "../redux/actionCreators";
@@ -74,32 +75,5 @@ const AddAccountsModal = (props) => {
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        // justifyContent: "center",
-        alignItems: "center",
-        margin: 10,
-        marginTop: 100,
-        backgroundColor: "white",
-        borderWidth: 4,
-        borderRadius: 25,
-        padding: 15,
-    },
-    modalView: {
-        margin: 20,
-    },
-    accSubmitBtn: {
-        width: 100,
-        height: 50,
-        marginTop: 20,
-        padding: 16,
-        borderRadius: 10,
-        backgroundColor: "#8ce6e3",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddAccountsModal);

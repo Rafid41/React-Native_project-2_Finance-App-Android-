@@ -123,7 +123,7 @@ export const addAccount = (email, acc_name) => {
             .then((data) => {
                 // load places  after add
                 //dispatch(loadPlaces());
-                console.log("check data leak addPlaces\n");
+                console.log("check data leak addAccounts\n");
             });
     };
 };
@@ -177,7 +177,6 @@ export const tryAuth = (email, password, mode) => (dispatch) => {
 
                 navigate("Home");
             }
-            // console.log(data);
         });
 };
 
@@ -201,5 +200,39 @@ const setUserIdWhenSignUp = (email) => {
             .then((data) => {
                 console.log("check data leak setUserID\n");
             });
+    };
+};
+
+// ========================== retrive all accounts name for user ======================//
+
+export const loadAccounts = (email) => (dispatch, getState) => {
+    let token = getState().token;
+    fetch(
+        `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Account_Names.json?orderBy="user_email"&equalTo="${email}"&auth=${token}`
+    )
+        .catch((err) => {
+            alert("something went wrong, sorry");
+            console.log(err);
+        })
+        .then((res) => res.json())
+        .then((data_from_firebase) => {
+            console.log("check data leak==> loadAccounts\n");
+            // console.log(data_from_firebase);
+            const accountNames = [];
+            //  retrive only acc_names
+            for (let key in data_from_firebase) {
+                accountNames.push({
+                    acc_name: data_from_firebase[key].acc_name,
+                    key: key,
+                });
+            }
+            dispatch(loadAcoounts_helper(accountNames));
+        });
+};
+
+export const loadAcoounts_helper = (accountNames) => {
+    return {
+        type: actionTypes.LOAD_ACCOUNTS,
+        payload: accountNames,
     };
 };

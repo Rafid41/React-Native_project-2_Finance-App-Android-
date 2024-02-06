@@ -6,6 +6,7 @@ const initState = {
     isAuth: false,
     token: null,
     user_email: null,
+    account_List: [],
 };
 
 export const rootReducer = (state = initState, action) => {
@@ -16,6 +17,11 @@ export const rootReducer = (state = initState, action) => {
                 isAuth: true,
                 token: action.payload.token,
                 user_email: action.payload.email,
+            };
+        case actionTypes.LOAD_ACCOUNTS:
+            return {
+                ...state,
+                account_List: action.payload,
             };
 
         default:

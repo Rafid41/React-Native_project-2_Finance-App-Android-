@@ -1,24 +1,64 @@
 // app\screens\HomeScreen.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
     View,
     Text,
     Modal,
     SafeAreaView,
-    StyleSheet,
-    Platform,
     Button,
     Pressable,
+    TouchableOpacity,
 } from "react-native";
-import Constants from "expo-constants";
+import styles from "./styles/styles";
 import AddAccountsModal from "./AddAccountsModal";
+import ListOfAccounts from "./ListOfAccounts";
+import { loadAccounts } from "../redux/actionCreators";
+import { connect } from "react-redux";
 
-const HomeScreen = () => {
+// ============================= stateToProps =======================//
+const mapStateToProps = (state) => {
+    return {
+        user_email: state.user_email,
+        account_List: state.account_List,
+    };
+};
+
+//=============== dispatchToProps ======================//
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadAccounts: (email) => dispatch(loadAccounts(email)),
+    };
+};
+
+// ========================== HomeScreen ==========================//
+const HomeScreen = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
+
+    // load Acc list
+    const load_acc_List = () => {
+        console.log(props.user_email);
+        props.loadAccounts(props.user_email);
+    };
+
+    //========================= useEffect ========================//
+    useEffect(() => {
+        load_acc_List();
+    }, []);
+
+    // =====================================  return =======================//
     return (
         // <SafeAreaView>
         <View style={styles.view}>
-            <Text>Home Screen</Text>
+            <Text
+                style={{
+                    textAlign: "center",
+                    fontSize: 22,
+                    fontWeight: "bold",
+                }}
+            >
+                Accounts
+            </Text>
+            <ListOfAccounts account_List={props.account_List} />
             {/* =========== modal =============== */}
             <Modal
                 style={styles.modal}
@@ -37,12 +77,15 @@ const HomeScreen = () => {
                         backgroundColor: "red",
                         minWidth: 100,
                     }}
-                    onPress={() => setModalVisible(false)}
+                    onPress={() => {
+                        setModalVisible(false);
+                        load_acc_List();
+                    }}
                 >
                     <Text style={styles.button_text}>close</Text>
                 </Pressable>
             </Modal>
-            {/* ============== modal open ============== */}
+            {/* ============== modal open btn ============== */}
             {/* Button == Pressable */}
             <Pressable
                 style={styles.addAccoundButton}
@@ -50,35 +93,11 @@ const HomeScreen = () => {
             >
                 <Text style={styles.button_text}>Add New Account</Text>
             </Pressable>
+
+            {/* ============ List of Accounts ================= */}
         </View>
         // </SafeAreaView>
     );
 };
 
-const styles = StyleSheet.create({
-    view: {
-        flex: 1,
-        padding: 10,
-        // different for android and ios
-        paddingTop: Platform.OS == "ios" ? 0 : Constants.statusBarHeight,
-    },
-    addAccoundButton: {
-        position: "absolute",
-        bottom: 35,
-        right: 20,
-        padding: 16,
-        borderRadius: 10,
-        backgroundColor: "rgb(22, 111, 228)",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    button_text: {
-        fontSize: 12,
-        fontWeight: "bold",
-    },
-    modal: {
-        backgroundColor: "red",
-    },
-});
-
-export default HomeScreen;
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
