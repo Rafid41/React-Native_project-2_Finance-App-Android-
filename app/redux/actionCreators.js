@@ -266,7 +266,7 @@ export const addCategory = (acc_name_key, category_name) => {
     };
 };
 
-// ========================== Loaad Category ======================//
+// ========================== Load Category ======================//
 
 export const loadCategory = (acc_name_key) => (dispatch, getState) => {
     let token = getState().token;
@@ -289,7 +289,7 @@ export const loadCategory = (acc_name_key) => (dispatch, getState) => {
                     key: key,
                 });
             }
-            console.log(CategoryNames);
+            // console.log(CategoryNames);
             dispatch(loadCategory_helper(CategoryNames));
         });
 };
@@ -298,5 +298,73 @@ export const loadCategory_helper = (CategoryNames) => {
     return {
         type: actionTypes.LOAD_CATEGORIES,
         payload: CategoryNames,
+    };
+};
+
+// ======================== Add Entries ===============================//
+export const addEntry = (category_key, accountKey_of_category, inputEntry) => {
+    return (dispatch, getState) => {
+        let token = getState().token;
+        // places table e store
+        // link/uri , additional data
+        fetch(
+            `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Entries.json?auth=${token}`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    category_key: category_key,
+                    accountKey_of_category: accountKey_of_category,
+                    the_Entry: inputEntry,
+                }),
+            }
+        )
+            .catch((error) => Alert.alert(error))
+            // error na hole
+            .then((response) => {
+                Alert.alert("Added");
+            })
+            .then((data) => {
+                // load places  after add
+                //dispatch(loadPlaces());
+                console.log("check data leak addEntry\n");
+            });
+    };
+};
+
+// ========================== Load Entry ======================//
+
+export const loadEntries = (category_key) => (dispatch, getState) => {
+    let token = getState().token;
+    fetch(
+        `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Entries.json?orderBy="category_key"&equalTo="${category_key}"&auth=${token}`
+    )
+        .catch((err) => {
+            alert("something went wrong, sorry");
+            console.log(err);
+        })
+        .then((res) => res.json())
+        .then((data_from_firebase) => {
+            console.log("check data leak==> LoadCategories\n");
+
+            const Entries = [];
+
+            for (let key in data_from_firebase) {
+                Entries.push({
+                    accountKey_of_category:
+                        data_from_firebase[key].accountKey_of_category,
+                    category_key: data_from_firebase[key].category_key,
+                    the_Entry: data_from_firebase[key].the_Entry,
+                    key: key,
+                });
+            }
+            // console.log(Entries);
+            dispatch(loadEntries_helper(Entries));
+        });
+};
+
+export const loadEntries_helper = (Entries) => {
+    return {
+        type: actionTypes.LOAD_ENTRIES,
+        payload: Entries,
     };
 };

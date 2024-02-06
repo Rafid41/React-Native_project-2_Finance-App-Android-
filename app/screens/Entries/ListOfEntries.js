@@ -1,4 +1,4 @@
-// app\screens\Categories\ListOfCategories.js
+// app\screens\Entries\ListOfEntries.js
 import React from "react";
 import {
     FlatList,
@@ -9,24 +9,15 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { navigate } from "../../Navigation/Navigation_all_helper";
-import { connect } from "react-redux";
-import { loadEntries } from "../../redux/actionCreators";
-
-// ======================= mapStateToProps =======================//
-const mapDispatchToProps = (dispatch) => {
-    return {
-        loadEntries: (acc_name_key) => dispatch(loadEntries(acc_name_key)),
-    };
-};
 
 // ================================= Main fn ================================//
-const ListOfCategories = (props) => {
-    console.log(props.accountKey_of_category);
+const ListOfEntries = (props) => {
+    // console.log(props.entry_List);
     return (
         <View>
             <FlatList
                 style={styles.FlatList_container}
-                data={props.category_List}
+                data={props.entry_List}
                 keyExtractor={(item) => item.key}
                 renderItem={({ item, index }) => (
                     <TouchableOpacity>
@@ -35,7 +26,7 @@ const ListOfCategories = (props) => {
                                 styles.itemContainer,
                                 {
                                     borderBottomColor:
-                                        index < props.category_List.length - 1
+                                        index < props.entry_List.length - 1
                                             ? "transparent"
                                             : "black",
                                     opacity: pressed ? 0.5 : 1,
@@ -44,20 +35,19 @@ const ListOfCategories = (props) => {
                                         : "white",
                                 },
                             ]}
-                            onPress={() => {
-                                // send params
-                                //  key of that category name
-                                props.loadEntries(item.key);
-                                navigate("Entries", {
-                                    category_key: item.key,
-                                    category_name: item.category_name,
-                                    accountKey_of_category:
-                                        props.accountKey_of_category,
-                                });
-                            }}
+                            // onPress={() => {
+                            //     // send params
+                            //     //  key of that category name
+                            //     // navigate("Entries", {
+                            //     //     category_key: item.key,
+                            //     //     category_name: item.category_name,
+                            //     //     accountKey_of_category:
+                            //     //         props.accountKey_of_category,
+                            //     // });
+                            // }}
                         >
                             <Text style={styles.itemText}>
-                                {item.category_name}
+                                {item.the_Entry.name}
                             </Text>
                         </Pressable>
                     </TouchableOpacity>
@@ -83,4 +73,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default connect(null, mapDispatchToProps)(ListOfCategories);
+export default ListOfEntries;

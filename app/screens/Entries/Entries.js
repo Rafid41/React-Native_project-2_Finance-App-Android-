@@ -1,39 +1,47 @@
+// app\screens\Entries\Entries.js
 // app\screens\Categories\Categories.js
 import React, { useState, useEffect } from "react";
 import { View, Text, Modal, Pressable } from "react-native";
 import styles from "../styles/styles";
 import { connect } from "react-redux";
-import AddNewCategory from "./AddNewCategory";
-import { loadCategory } from "../../redux/actionCreators";
-import ListOfCategories from "./ListOfCategories";
+import AddNewEntries from "./AddNewEntries";
+import { loadEntries } from "../../redux/actionCreators";
+import ListOfEntries from "./ListOfEntries";
 
-// ============================= stateToProps =======================//
+// import { loadCategory } from "../../redux/actionCreators";
+// import ListOfCategories from "./ListOfCategories";
+
+// // ============================= stateToProps =======================//
 const mapStateToProps = (state) => {
     return {
-        category_List: state.category_List,
+        entry_List: state.entry_List,
     };
 };
 
-// //=============== dispatchToProps ======================//
+// // //=============== dispatchToProps ======================//
 const mapDispatchToProps = (dispatch) => {
     return {
-        loadCategory: (acc_name_key) => dispatch(loadCategory(acc_name_key)),
+        loadEntries: (acc_name_key) => dispatch(loadEntries(acc_name_key)),
     };
 };
 
 // =========================== CATEGORY ==========================//
-const Categories = ({ route, navigation, loadCategory, category_List }) => {
+const Entries = ({ route, navigation, loadEntries, entry_List }) => {
     // receiving props, baki prop directly boshaya dbo
-    const { account } = route.params;
+    const { category_key, category_name, accountKey_of_category } =
+        route.params;
+
     const [modalVisible, setModalVisible] = useState(false);
 
-    // ======================= load category==================//
-    const load_category_List = () => {
-        // console.log(props.user_email);
-        loadCategory(account.key);
+    // console.log(category_key, category_name, accountKey_of_category);
+
+    // // ======================= load category==================//
+    const load_Entry_List = () => {
+        loadEntries(category_key);
     };
 
     //========================= useEffect ========================//
+    // loaded from ListOfCategories page
     // useEffect(() => {
     //     load_category_List();
     // }, [navigation]);
@@ -48,12 +56,10 @@ const Categories = ({ route, navigation, loadCategory, category_List }) => {
                     fontWeight: "bold",
                 }}
             >
-                Categories
+                Entries
             </Text>
-            <ListOfCategories
-                category_List={category_List}
-                accountKey_of_category={account.key}
-            />
+            {/*=================== List of Entries ==================*/}
+            <ListOfEntries entry_List={entry_List} />
             {/* =========== modal =============== */}
             <Modal
                 style={styles.modal}
@@ -65,7 +71,10 @@ const Categories = ({ route, navigation, loadCategory, category_List }) => {
                     setModalVisible(!modalVisible);
                 }}
             >
-                <AddNewCategory acc_name_key={account.key} />
+                <AddNewEntries
+                    category_key={category_key}
+                    accountKey_of_category={accountKey_of_category}
+                />
                 <Pressable
                     style={{
                         ...styles.addAccoundButton,
@@ -74,7 +83,7 @@ const Categories = ({ route, navigation, loadCategory, category_List }) => {
                     }}
                     onPress={() => {
                         setModalVisible(false);
-                        load_category_List();
+                        load_Entry_List();
                     }}
                 >
                     <Text style={styles.button_text}>close</Text>
@@ -86,10 +95,10 @@ const Categories = ({ route, navigation, loadCategory, category_List }) => {
                 style={styles.addAccoundButton}
                 onPress={() => setModalVisible(true)}
             >
-                <Text style={styles.button_text}>Add New Category</Text>
+                <Text style={styles.button_text}>Add New Entries</Text>
             </Pressable>
         </View>
     );
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default connect(mapStateToProps, mapDispatchToProps)(Entries);

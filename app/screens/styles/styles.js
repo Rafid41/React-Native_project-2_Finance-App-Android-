@@ -50,6 +50,47 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
     },
+
+    // ======================== AddNewEntries.js extra ======================//
+    centeredViewForNewEntries: {
+        flex: 1,
+        // justifyContent: "center",
+        alignItems: "center",
+        margin: 10,
+        marginTop: 15,
+        backgroundColor: "white",
+        borderWidth: 4,
+        borderRadius: 25,
+        padding: 15,
+    },
+    input: {
+        width: "100%",
+        borderBottomWidth: 1,
+        borderColor: "black",
+        padding: 7,
+        marginBottom: 10,
+    },
+    textArea: {
+        width: "100%",
+        // height: 150, // Adjust the height as needed
+        borderWidth: 1,
+        borderColor: "black",
+        padding: 7,
+        marginBottom: 10,
+    },
+    row: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 10,
+    },
+    typeButton: {
+        backgroundColor: "#eee",
+        padding: 10,
+        marginHorizontal: 5,
+    },
+    selected: {
+        backgroundColor: "lightblue",
+    },
 });
 
 export default styles;

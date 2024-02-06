@@ -8,6 +8,7 @@ const initState = {
     user_email: null,
     account_List: [],
     category_List: [],
+    entry_List: [],
 };
 
 export const rootReducer = (state = initState, action) => {
@@ -29,6 +30,11 @@ export const rootReducer = (state = initState, action) => {
             return {
                 ...state,
                 category_List: action.payload,
+            };
+        case actionTypes.LOAD_ENTRIES:
+            return {
+                ...state,
+                entry_List: action.payload,
             };
 
         default:
