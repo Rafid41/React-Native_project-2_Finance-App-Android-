@@ -8,7 +8,16 @@ import {
     TouchableOpacity,
 } from "react-native";
 import { navigate } from "../Navigation/Navigation_all_helper";
+import { loadCategory } from "../redux/actionCreators";
+import { connect } from "react-redux";
 
+// //=============== dispatchToProps ======================//
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadCategory: (acc_name_key) => dispatch(loadCategory(acc_name_key)),
+    };
+};
+// ===========================================================
 const ListOfAccounts = (props) => {
     return (
         <View>
@@ -32,10 +41,12 @@ const ListOfAccounts = (props) => {
                                         : "white",
                                 },
                             ]}
-                            onPress={() =>
+                            onPress={() => {
                                 // send params
-                                navigate("Categories", { account: item })
-                            }
+                                // data load eikhan theke kora holo, cz 'Categories' e useEffect() kaj korena
+                                props.loadCategory(item.key);
+                                navigate("Categories", { account: item });
+                            }}
                         >
                             <Text style={styles.itemText}>{item.acc_name}</Text>
                         </Pressable>
@@ -62,4 +73,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ListOfAccounts;
+export default connect(null, mapDispatchToProps)(ListOfAccounts);

@@ -41,9 +41,10 @@ const HomeScreen = (props) => {
     };
 
     //========================= useEffect ========================//
-    useEffect(() => {
-        load_acc_List();
-    }, []);
+    // useEffect() kaj korena, Auth er time e loadAccounts() call/dispatch kora hoise, actionCreators.js theke
+    // useEffect(() => {
+    //     load_acc_List();
+    // }, []);
 
     // =====================================  return =======================//
     return (

@@ -34,7 +34,6 @@ const Categories = ({ route, navigation, loadCategory, category_List }) => {
     // receiving props, baki prop directly boshaya dbo
     const { account } = route.params;
     const [modalVisible, setModalVisible] = useState(false);
-    console.log(account.key);
 
     // ======================= load category==================//
     const load_category_List = () => {
@@ -43,9 +42,9 @@ const Categories = ({ route, navigation, loadCategory, category_List }) => {
     };
 
     //========================= useEffect ========================//
-    useEffect(() => {
-        load_category_List();
-    }, []);
+    // useEffect(() => {
+    //     load_category_List();
+    // }, [navigation]);
 
     // =====================================  return =======================//
     return (

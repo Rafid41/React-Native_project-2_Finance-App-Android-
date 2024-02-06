@@ -141,7 +141,7 @@ export const tryAuth = (email, password, mode) => (dispatch) => {
                 // dispacth to reducer
 
                 dispatch(authUser(data.idToken, email));
-
+                dispatch(loadAccounts(email));
                 navigate("Home");
             }
         });
