@@ -95,39 +95,6 @@ import { Alert } from "react-native";
 //     };
 // };
 
-//==================== Add account ===================//
-
-export const addAccount = (email, acc_name) => {
-    // console.log(place);
-    // auto state ashe reducer theke, variable(ekhane getState) e store korte hy
-    return (dispatch, getState) => {
-        let token = getState().token;
-        // places table e store
-        // link/uri , additional data
-        fetch(
-            `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Account_Names.json?auth=${token}`,
-            {
-                method: "POST",
-                body: JSON.stringify({
-                    user_email: email,
-                    acc_name: acc_name,
-                }),
-            }
-        )
-            .catch((error) => Alert.alert(error))
-            // error na hole
-            .then((response) => {
-                Alert.alert("Added");
-                //response.json();
-            })
-            .then((data) => {
-                // load places  after add
-                //dispatch(loadPlaces());
-                console.log("check data leak addAccounts\n");
-            });
-    };
-};
-
 // =============== authenticate user ==========//
 // send to reducer
 export const authUser = (token, email) => {
@@ -203,6 +170,39 @@ const setUserIdWhenSignUp = (email) => {
     };
 };
 
+//==================== Add account ===================//
+
+export const addAccount = (email, acc_name) => {
+    // console.log(place);
+    // auto state ashe reducer theke, variable(ekhane getState) e store korte hy
+    return (dispatch, getState) => {
+        let token = getState().token;
+        // places table e store
+        // link/uri , additional data
+        fetch(
+            `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Account_Names.json?auth=${token}`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    user_email: email,
+                    acc_name: acc_name,
+                }),
+            }
+        )
+            .catch((error) => Alert.alert(error))
+            // error na hole
+            .then((response) => {
+                Alert.alert("Added");
+                //response.json();
+            })
+            .then((data) => {
+                // load places  after add
+                //dispatch(loadPlaces());
+                console.log("check data leak addAccounts\n");
+            });
+    };
+};
+
 // ========================== retrive all accounts name for user ======================//
 
 export const loadAccounts = (email) => (dispatch, getState) => {
@@ -234,5 +234,69 @@ export const loadAcoounts_helper = (accountNames) => {
     return {
         type: actionTypes.LOAD_ACCOUNTS,
         payload: accountNames,
+    };
+};
+
+// =============================== ADD new Catrgory ============================//
+export const addCategory = (acc_name_key, category_name) => {
+    return (dispatch, getState) => {
+        let token = getState().token;
+        // places table e store
+        // link/uri , additional data
+        fetch(
+            `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Categories.json?auth=${token}`,
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    target_account_key: acc_name_key,
+                    category_name: category_name,
+                }),
+            }
+        )
+            .catch((error) => Alert.alert(error))
+            // error na hole
+            .then((response) => {
+                Alert.alert("Added");
+            })
+            .then((data) => {
+                // load places  after add
+                //dispatch(loadPlaces());
+                console.log("check data leak addCategories\n");
+            });
+    };
+};
+
+// ========================== Loaad Category ======================//
+
+export const loadCategory = (acc_name_key) => (dispatch, getState) => {
+    let token = getState().token;
+    fetch(
+        `https://finance-app-react-native-32a6f-default-rtdb.asia-southeast1.firebasedatabase.app/Categories.json?orderBy="target_account_key"&equalTo="${acc_name_key}"&auth=${token}`
+    )
+        .catch((err) => {
+            alert("something went wrong, sorry");
+            console.log(err);
+        })
+        .then((res) => res.json())
+        .then((data_from_firebase) => {
+            console.log("check data leak==> LoadCategories\n");
+
+            const CategoryNames = [];
+
+            for (let key in data_from_firebase) {
+                CategoryNames.push({
+                    category_name: data_from_firebase[key].category_name,
+                    key: key,
+                });
+            }
+            console.log(CategoryNames);
+            dispatch(loadCategory_helper(CategoryNames));
+        });
+};
+
+export const loadCategory_helper = (CategoryNames) => {
+    return {
+        type: actionTypes.LOAD_CATEGORIES,
+        payload: CategoryNames,
     };
 };

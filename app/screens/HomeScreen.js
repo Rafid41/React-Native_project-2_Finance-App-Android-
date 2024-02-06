@@ -93,8 +93,6 @@ const HomeScreen = (props) => {
             >
                 <Text style={styles.button_text}>Add New Account</Text>
             </Pressable>
-
-            {/* ============ List of Accounts ================= */}
         </View>
         // </SafeAreaView>
     );
