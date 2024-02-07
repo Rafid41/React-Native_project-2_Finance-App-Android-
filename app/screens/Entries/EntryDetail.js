@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    View,
-    Text,
-    StyleSheet,
-    Pressable,
-    TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 const EntryDetail = ({ route }) => {
     const { the_Entry } = route.params;

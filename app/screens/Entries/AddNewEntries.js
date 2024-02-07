@@ -1,13 +1,5 @@
 // app\screens\Entries\AddNewEntries.js
-import {
-    Alert,
-    Modal,
-    StyleSheet,
-    Text,
-    Pressable,
-    View,
-    TextInput,
-} from "react-native";
+import { Alert, Text, Pressable, View, TextInput } from "react-native";
 import styles from "../styles/styles";
 import React, { useState } from "react";
 import { connect } from "react-redux";
