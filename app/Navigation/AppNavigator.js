@@ -18,7 +18,7 @@ const AppNavigator = () => {
     return (
         // initialRouteName="Home" means first app open e "Home" ashbe
         <Drawer.Navigator
-            initialRouteName="Home"
+            initialRouteName="Auth"
             // hides Navbar
             //screenOptions={{ headerShown: false }}
         >
